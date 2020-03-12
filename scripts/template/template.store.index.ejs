@@ -1,8 +1,7 @@
-import Login from '../pages/Login/model/Login';
 <% models.forEach(function(item){ %>import <%= item.name %> from '<%= item.path %>';
 <% }) %>
 
 export default {
-<% models.forEach(function(item){ %>model<%= item.name %>: new <%= item.name %>(),
+<% models.forEach(function(item){ %>  model<%= item.name %>: new <%= item.name %>(),
 <% }) %>
 };

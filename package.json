@@ -9,7 +9,8 @@
     "mock": "webpack-dev-server --open --config config/webpack.dev.js",
     "dev": "webpack-dev-server --open --config config/webpack.dev.js --env.API=dev",
     "build": "webpack --progress --config config/webpack.prod.js",
-    "doc": "webpack --progress --config config/webpack.doc.js"
+    "doc": "webpack --progress --config config/webpack.doc.js",
+    "g:pages": "node ./scripts/generatePages.js"
   },
   "husky": {
     "hooks": {
@@ -34,6 +35,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "clean-webpack-plugin": "^1.0.0",
     "css-loader": "^0.28.11",
+    "ejs": "^3.0.1",
     "eslint": "^5.5.0",
     "eslint-config-ali": "^3.1.0",
     "eslint-plugin-import": "^2.14.0",

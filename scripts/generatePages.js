@@ -6,7 +6,7 @@
   const ejs = require('ejs');
 
   // eslint-disable-next-line no-new-func
-  const { pages } = require('../pages.js');
+  const { pages } = require('../src/pages.js');
 
   const paths = pages.map(item => item.path);
 
@@ -117,45 +117,45 @@
     // 此时arr为目录数组
     const len = arr.length;
     const modelsName = arr[len - 1]; // 模块的名称，以.vue文件所在目录的目录名作为model的名字
-    const realLastFilePath = path.resolve(__dirname, '../', `${route}.js`);
+    const realLastFilePath = path.resolve(__dirname, '../src', `${route}.js`);
     const realLastFileStat = await getStat(realLastFilePath);
     const realLastStyleFilePath = path.resolve(
       __dirname,
-      '../',
+      '../src',
       `${route}.less`
     );
     const realLastStyleFileStat = await getStat(realLastStyleFilePath);
     pageGlobalStyles.push(
       path
-        .relative(path.resolve(__dirname, '../'), realLastStyleFilePath)
+        .relative(path.resolve(__dirname, '../src'), realLastStyleFilePath)
         .split('\\')
         .join('/')
     );
-    const realDirPath = path.resolve(__dirname, '../', arr.join('/')); // 最后一个文件所在目录的绝对路径
-    const storePath = path.resolve(__dirname, '../store'); // store目录的绝对路径
-    const utilsPath = path.resolve(__dirname, '../utils'); // store目录的绝对路径
+    const realDirPath = path.resolve(__dirname, '../src', arr.join('/')); // 最后一个文件所在目录的绝对路径
+    const storePath = path.resolve(__dirname, '../src/store'); // store目录的绝对路径
+    const utilsPath = path.resolve(__dirname, '../src/utils'); // store目录的绝对路径
     const modelFilePath = path.resolve(
       __dirname,
-      '../',
+      '../src',
       [...arr, 'models', modelsName].join('/')
     ); // 模块文件的绝对路径
     const modelFilePathFullName = `${modelFilePath}.js`; // 模块文件的绝对路径全名
     const modelFilePathStat = await getStat(modelFilePathFullName);
     const modelDirPath = path.resolve(
       __dirname,
-      '../',
+      '../src',
       [...arr, 'models'].join('/')
     ); // 模块目录文件的绝对路径
     const servicesFilePath = path.resolve(
       __dirname,
-      '../',
+      '../src',
       [...arr, 'services', modelsName].join('/')
     ); // services文件的绝对路径
     const servicesFilePathFullName = `${servicesFilePath}.js`; // services文件的绝对路径全名
     const servicesFilePathStat = await getStat(servicesFilePathFullName);
     const serviceDirPath = path.resolve(
       __dirname,
-      '../',
+      '../src',
       [...arr, 'services'].join('/')
     ); // services目录的绝对路径
     const modelFileRelativePathInStore = path
@@ -196,7 +196,12 @@
       fs.writeFileSync(
         realLastFilePath,
         ejs.render(templatePage.toString(), {
-          name: pageClassName
+          name: pageClassName,
+          modelsName,
+          stylePath: path
+            .relative(realDirPath, realLastStyleFilePath)
+            .split('\\')
+            .join('/')
         })
       );
 
@@ -235,7 +240,7 @@
   // console.log(pageGlobalStyles);
   // 生成store下的index文件
   fs.writeFileSync(
-    path.resolve(__dirname, '../store/index.js'),
+    path.resolve(__dirname, '../src/store/index.js'),
     ejs.render(templateStore.toString(), {
       models
     })

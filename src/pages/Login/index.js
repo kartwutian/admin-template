@@ -8,18 +8,18 @@ import loginUtil from 'util/login';
 import styles from './style.less';
 
 @withRouter
-@inject('loginStore')
+@inject('modelLogin')
 @observer
 @cssModules(styles)
 class LoginPage extends Component {
   constructor(props) {
     super(props);
 
-    this.store = this.props.loginStore;
+    this.store = this.props.modelLogin;
   }
 
   handleSubmit = async values => {
-    const { login } = this.props.loginStore;
+    const { login } = this.props.modelLogin;
     const res = await login({
       phone: values.username,
       captcha: values.password
