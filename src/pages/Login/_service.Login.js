@@ -1,4 +1,4 @@
-import ajax from '../../../util/api/ajax';
+import ajax from '../../util/api/ajax';
 
 export function login(params) {
   return ajax({

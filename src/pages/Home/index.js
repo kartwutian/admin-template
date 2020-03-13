@@ -8,8 +8,6 @@ import {} from 'antd';
 @observer
 @cssModules(styles)
 class HomePage extends Component {
-  // 声明一个叫 "count" 的 state 变量
-
   render() {
     return (
       <div>

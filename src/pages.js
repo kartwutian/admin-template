@@ -6,12 +6,18 @@ module.exports = {
       style: {
         navigationBarTitleText: '登录'
       }
+    },
+    {
+      path: 'pages/Test/index',
+      style: {
+        navigationBarTitleText: '测试'
+      }
+    },
+    {
+      path: 'pages/Test/Demo',
+      style: {
+        navigationBarTitleText: '测试'
+      }
     }
-    // {
-    //   path: 'pages/Test/index',
-    //   style: {
-    //     navigationBarTitleText: '测试'
-    //   }
-    // }
   ]
 };

@@ -1,5 +1,11 @@
-import Login from '../pages/Login/model/Login';
+import Login from '../pages/Login/index.model';
+import Test from '../pages/Test/index.model';
+import TestDemo from '../pages/Test/Demo.model';
+
 
 export default {
-  loginStore: new Login()
+  modelLogin: new Login(),
+  modelTest: new Test(),
+  modelTestDemo: new TestDemo(),
+
 };

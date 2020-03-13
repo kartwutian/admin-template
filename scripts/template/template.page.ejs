@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import cssModules from 'react-css-modules';
-import styles from './<%= stylePath%>';
+import styles from '<%= stylePath%>';
 import {} from 'antd';
 
-@inject('<%= modelsName%>')
+@inject('model<%= modelName%>')
 @observer
 @cssModules(styles)
-class <%= modelsName%>Page extends Component {
+class <%= modelName%>Page extends Component {
   render() {
     return (
       <div>
@@ -17,4 +17,4 @@ class <%= modelsName%>Page extends Component {
   }
 }
 
-export default <%= modelsName%>Page;
+export default <%= modelName%>Page;
