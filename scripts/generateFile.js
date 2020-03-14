@@ -108,5 +108,8 @@ const generateFile = async ({ filePath, template }, rewrite = false) => {
 //   filePath: path.resolve(__dirname, 'demo/01/test.js'),
 //   template: 'var a =1'
 // });
-
-module.exports = generateFile;
+exports.getStat = getStat;
+exports.mkdir = mkdir;
+exports.dirExists = dirExists;
+exports.beforeGenerateFile = beforeGenerateFile;
+exports.generateFile = generateFile;

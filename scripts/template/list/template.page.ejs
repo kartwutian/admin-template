@@ -1,0 +1,20 @@
+import React, { Component } from 'react';
+import { observer, inject } from 'mobx-react';
+import cssModules from 'react-css-modules';
+import styles from '<%= stylePath%>';
+import {} from 'antd';
+
+@inject('model<%= modelName%>')
+@observer
+@cssModules(styles)
+class <%= modelName%>Page extends Component {
+  render() {
+    return (
+      <div>
+        <p>You clicked1 times</p>
+      </div>
+    );
+  }
+}
+
+export default <%= modelName%>Page;

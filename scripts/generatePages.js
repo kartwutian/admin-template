@@ -4,23 +4,21 @@
   const path = require('path');
   const fs = require('fs');
   const ejs = require('ejs');
-  const generateFile = require('./generateFile.js');
+  const { generateFile, getStat } = require('./generateFile.js');
 
   const { pages } = require('../src/pages.js');
 
-  const paths = pages.map(item => item.path);
-
-  const templatePage = fs.readFileSync(
+  const defaultTemplatePage = fs.readFileSync(
     path.resolve(__dirname, './template/template.page.ejs')
+  );
+  const defaultTemplateModel = fs.readFileSync(
+    path.resolve(__dirname, './template/template.model.ejs')
   );
   const templateLess = fs.readFileSync(
     path.resolve(__dirname, './template/template.less.ejs')
   );
-  const templateModel = fs.readFileSync(
-    path.resolve(__dirname, './template/template.models.ejs')
-  );
   const templateService = fs.readFileSync(
-    path.resolve(__dirname, './template/template.services.ejs')
+    path.resolve(__dirname, './template/template.service.ejs')
   );
   const templateStore = fs.readFileSync(
     path.resolve(__dirname, './template/template.store.index.ejs')
@@ -39,7 +37,32 @@
   const storePath = path.resolve(__dirname, '../src/store');
   const sourceCodePath = path.resolve(__dirname, '../src');
 
-  const generatePages = async route => {
+  const generatePages = async pageConfig => {
+    let { path: route } = pageConfig;
+    const { template } = pageConfig;
+    let templatePage = defaultTemplatePage;
+    let templateModel = defaultTemplateModel;
+
+    // 如果存在自定义模板，则选自定义模板为输入
+    if (template) {
+      const templatePagePath = path.resolve(
+        __dirname,
+        `./template/${template}/template.page.ejs`
+      );
+      const templateModelPath = path.resolve(
+        __dirname,
+        `./template/${template}/template.model.ejs`
+      );
+      if (await getStat(templatePagePath)) {
+        console.log(`使用 ${template} page模板`);
+        templatePage = fs.readFileSync(templatePagePath);
+      }
+      if (await getStat(templateModelPath)) {
+        console.log(`使用 ${template} model模板`);
+        templateModel = fs.readFileSync(templateModelPath);
+      }
+    }
+
     // 做一些初始路由处理
     if (route.startsWith('/')) {
       route = route.slice(1);
@@ -71,23 +94,26 @@
       filePath: `${basePath}.js`,
       template: ejs.render(templatePage.toString(), {
         modelName,
-        stylePath: `./${filename}.less`
+        stylePath: `./${filename}.less`,
+        config: pageConfig
       })
     });
     // 生成less文件
     await generateFile({
       filePath: `${basePath}.less`,
-      template: ejs.render(templateLess.toString())
+      template: ejs.render(templateLess.toString()),
+      config: pageConfig
     });
     // 生成model文件
     await generateFile({
       filePath: `${basePath}.model.js`,
       template: ejs.render(templateModel.toString(), {
         modelName,
-        servicePath: `./_service.${serviceName}.js`
+        servicePath: `./_service.${serviceName}.js`,
+        config: pageConfig
       })
     });
-    // 生成services文件
+    // 生成service文件
     await generateFile({
       filePath: path.resolve(dirname, `_service.${serviceName}.js`),
       template: ejs.render(templateService.toString(), {
@@ -96,7 +122,8 @@
         utilsPath: `${path
           .relative(basePath, utilsPath)
           .split('\\')
-          .join('/')}`
+          .join('/')}`,
+        config: pageConfig
       })
     });
 
@@ -110,9 +137,9 @@
   };
 
   // 注意forEach不支持async await
-  for (let i = 0; i < paths.length; i++) {
+  for (let i = 0; i < pages.length; i++) {
     // eslint-disable-next-line no-await-in-loop
-    await generatePages(paths[i]);
+    await generatePages(pages[i]);
   }
 
   await generateFile(
