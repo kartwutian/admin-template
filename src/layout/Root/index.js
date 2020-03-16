@@ -6,14 +6,13 @@ import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 import { Provider } from 'mobx-react';
 import App from 'layout/App';
 import store from 'store';
-import { LocaleProvider } from 'antd';
+import { ConfigProvider } from 'antd';
 import loginUtil from 'util/login';
-import zh_CN from 'antd/lib/locale-provider/zh_CN';
+import zh_CN from 'antd/es/locale/zh_CN';
 import 'moment/locale/zh-cn';
 
 import Home from 'pages/Home';
 
-import 'antd/dist/antd.css';
 import 'stylesheet/cantd.less';
 import 'stylesheet/app.less';
 
@@ -27,7 +26,7 @@ function getComponentAsync(loader) {
 
 const Root = () => (
   <Provider {...store}>
-    <LocaleProvider locale={zh_CN}>
+    <ConfigProvider locale={zh_CN}>
       <BrowserRouter>
         <React.Fragment>
           <Switch>
@@ -51,7 +50,7 @@ const Root = () => (
           </Switch>
         </React.Fragment>
       </BrowserRouter>
-    </LocaleProvider>
+    </ConfigProvider>
   </Provider>
 );
 

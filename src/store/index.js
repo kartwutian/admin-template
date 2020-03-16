@@ -1,11 +1,9 @@
+import Home from '../pages/Home/index.model';
 import Login from '../pages/Login/index.model';
-import Test from '../pages/Test/index.model';
-import TestDemo from '../pages/Test/Demo.model';
 
 
 export default {
+  modelHome: new Home(),
   modelLogin: new Login(),
-  modelTest: new Test(),
-  modelTestDemo: new TestDemo(),
 
 };

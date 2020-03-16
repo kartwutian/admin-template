@@ -120,7 +120,7 @@
         name: modelName,
         list: api[modelName] || [],
         utilsPath: `${path
-          .relative(basePath, utilsPath)
+          .relative(dirname, utilsPath)
           .split('\\')
           .join('/')}`,
         config: pageConfig
