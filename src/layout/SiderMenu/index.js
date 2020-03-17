@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { Menu, Icon } from 'antd';
-
+import { Menu } from 'antd';
 import { MenuFoldOutlined } from '@ant-design/icons';
 
 const { SubMenu } = Menu;

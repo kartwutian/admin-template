@@ -2,7 +2,8 @@ import React from 'react';
 import loadable from 'react-loadable';
 import Loading from 'component/Loading';
 import { hot } from 'react-hot-loader';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { Router, Route, Redirect, Switch } from 'react-router-dom';
+import { createHashHistory } from 'history';
 import { Provider } from 'mobx-react';
 import App from 'layout/App';
 import store from 'store';
@@ -24,10 +25,12 @@ function getComponentAsync(loader) {
   });
 }
 
+export const appHistory = createHashHistory();
+
 const Root = () => (
   <Provider {...store}>
     <ConfigProvider locale={zh_CN}>
-      <BrowserRouter>
+      <Router history={appHistory}>
         <React.Fragment>
           <Switch>
             <Route
@@ -49,7 +52,7 @@ const Root = () => (
             )}
           </Switch>
         </React.Fragment>
-      </BrowserRouter>
+      </Router>
     </ConfigProvider>
   </Provider>
 );

@@ -82,8 +82,8 @@ class App extends Component {
           </div>
           <SiderMenu collapsed={collapsed} />
         </Sider>
-        <Layout>
-          <Header style={{ background: '#fff', padding: 0 }}>
+        <Layout styleName="app">
+          <Header styleName="app-header">
             {collapsed ? (
               <MenuUnfoldOutlined
                 styleName="icon-menu-trigger"
@@ -123,31 +123,15 @@ class App extends Component {
             </div>
           </Header>
           <div>
-            <Tabs type="editable-card" hideAdd animated size="small">
+            {/* <Tabs type="editable-card" hideAdd animated size="small">
               <Tabs.TabPane tab="标签1" closable />
               <Tabs.TabPane tab="标签2" closable />
               <Tabs.TabPane tab="标签3" closable />
-              <Tabs.TabPane tab="标签1" closable />
-              <Tabs.TabPane tab="标签2" closable />
-              <Tabs.TabPane tab="标签3" closable />
-              <Tabs.TabPane tab="标签1" closable />
-              <Tabs.TabPane tab="标签2" closable />
-              <Tabs.TabPane tab="标签3" closable />
-              <Tabs.TabPane tab="标签1" closable />
-              <Tabs.TabPane tab="标签2" closable />
-              <Tabs.TabPane tab="标签3" closable />
-              <Tabs.TabPane tab="标签1" closable />
-              <Tabs.TabPane tab="标签2" closable />
-              <Tabs.TabPane tab="标签3" closable />
-              <Tabs.TabPane tab="标签1" closable />
-              <Tabs.TabPane tab="标签2" closable />
-              <Tabs.TabPane tab="标签3" closable />
-              <Tabs.TabPane tab="标签1" closable />
-              <Tabs.TabPane tab="标签2" closable />
-              <Tabs.TabPane tab="标签3" closable />
-            </Tabs>
+            </Tabs> */}
           </div>
-          <Content>{this.props.children}</Content>
+          <div>
+            <Content>{this.props.children}</Content>
+          </div>
         </Layout>
       </Layout>
     );
