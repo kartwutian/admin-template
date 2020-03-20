@@ -1,15 +1,14 @@
-import ajax from '../../util/api/ajax';
+import request from '../../utils/request';
 
 export function login(params) {
-  return ajax({
-    url: '/api/v1/login',
+  return request('/api/v1/login', {
     method: 'post',
     data: params
   });
 }
+
 export function login1(params) {
-  return ajax({
-    url: '/api/v1/login',
+  return request('/api/v1/login', {
     method: 'post',
     data: params
   });

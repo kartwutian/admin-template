@@ -68,7 +68,7 @@ class HomePage extends Component {
 
   render() {
     const {
-      store: { data, update, loading },
+      store: { data, commit, demo, loading },
       columns
     } = this;
 
@@ -109,6 +109,17 @@ class HomePage extends Component {
                 loading={loading.update}
               >
                 请求数据
+              </Button>
+              <Button
+                type="primary"
+                onClick={() => {
+                  commit({
+                    demo: demo + 1234566
+                  });
+                }}
+                loading={loading.update}
+              >
+                {demo}
               </Button>
             </Row>
 

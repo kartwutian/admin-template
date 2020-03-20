@@ -1,16 +1,16 @@
-const path = require("path");
-const webpack = require("webpack");
-const merge = require("webpack-merge");
-const HtmlWebPackPlugin = require("html-webpack-plugin");
-const autoprefixer = require("autoprefixer");
-const common = require("./webpack.common");
-const PATHS = require("./PATHS");
+const path = require('path');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+const HtmlWebPackPlugin = require('html-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+const common = require('./webpack.common');
+const PATHS = require('./PATHS');
 // const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 module.exports = env => {
-  const API = (env || {}).API || "mock";
+  const API = (env || {}).API || 'mock';
 
-  console.log("API %s", API);
+  console.log('API %s', API);
 
   const devServer = {
     contentBase: path.resolve(PATHS.dist),
@@ -22,40 +22,45 @@ module.exports = env => {
     // progress: true
   };
 
-  if (API === "dev") {
+  if (API === 'dev') {
     devServer.proxy = {
-      "/api": "http://pre.xxx.com" // 预发地址
+      '/api': 'http://pre.xxx.com' // 预发地址
     };
   } else {
-    devServer.proxy = {
-      "/api": {
-        target: "http://rap2api.taobao.org",
-        pathRewrite: {
-          "^/api": "/app/mock/84445/api"
-        }
-        // changeOrigin: true,
-        // onProxyRes: function(proxyReq, req, res) {
-        //   console.log('--------------------------------');
-        //   console.log(proxyReq);
-        //   console.log(req);
-        //   // console.log(res);
-        //   console.log('--------------------------------');
-        // }
-      }
+    devServer.before = app => {
+      app.post('/api/v1/login', function(req, res) {
+        res.json(require('../mock/login').login);
+      });
     };
+    // devServer.proxy = {
+    //   '/api': {
+    //     target: 'http://rap2api.taobao.org',
+    //     pathRewrite: {
+    //       '^/api': '/app/mock/84445/api/post'
+    //     }
+    //     // changeOrigin: true,
+    //     // onProxyRes: function(proxyReq, req, res) {
+    //     //   console.log('--------------------------------');
+    //     //   console.log(proxyReq);
+    //     //   console.log(req);
+    //     //   // console.log(res);
+    //     //   console.log('--------------------------------');
+    //     // }
+    //   }
+    // };
   }
 
   return merge(common, {
     entry: {
-      main: ["@babel/polyfill", path.resolve(PATHS.src, "index.js")]
+      main: ['@babel/polyfill', path.resolve(PATHS.src, 'index.js')]
     },
     output: {
-      filename: "[name].js",
+      filename: '[name].js',
       path: path.resolve(PATHS.dist),
-      publicPath: "/"
+      publicPath: '/'
     },
-    mode: "development",
-    devtool: "inline-source-map",
+    mode: 'development',
+    devtool: 'inline-source-map',
     devServer: devServer,
     module: {
       rules: [
@@ -63,39 +68,39 @@ module.exports = env => {
           test: /\.css$/,
           use: [
             {
-              loader: "style-loader"
+              loader: 'style-loader'
             },
             {
-              loader: "css-loader"
+              loader: 'css-loader'
             }
           ]
         },
         {
           test: /\.less$/,
-          exclude: path.resolve(PATHS.src, "asset/stylesheet"),
+          exclude: path.resolve(PATHS.src, 'asset/stylesheet'),
           use: [
             {
-              loader: "style-loader"
+              loader: 'style-loader'
             },
             {
-              loader: "css-loader",
+              loader: 'css-loader',
               options: {
                 modules: true,
                 importLoaders: 1,
-                localIdentName: "[local]_[hash:base64:5]",
+                localIdentName: '[local]_[hash:base64:5]',
                 sourceMap: true,
                 minimize: true
               }
             },
             {
-              loader: "postcss-loader",
+              loader: 'postcss-loader',
               options: {
-                plugins: [autoprefixer("last 2 version")],
+                plugins: [autoprefixer('last 2 version')],
                 sourceMap: true
               }
             },
             {
-              loader: "less-loader",
+              loader: 'less-loader',
               options: {
                 javascriptEnabled: true
               }
@@ -104,16 +109,16 @@ module.exports = env => {
         },
         {
           test: /\.less$/,
-          include: path.resolve(PATHS.src, "asset/stylesheet"),
+          include: path.resolve(PATHS.src, 'asset/stylesheet'),
           use: [
             {
-              loader: "style-loader"
+              loader: 'style-loader'
             },
             {
-              loader: "css-loader"
+              loader: 'css-loader'
             },
             {
-              loader: "less-loader",
+              loader: 'less-loader',
               options: {
                 javascriptEnabled: true
               }
@@ -130,12 +135,12 @@ module.exports = env => {
       // }),
       new webpack.DefinePlugin({
         // 为项目注入环境变量
-        "process.env.API": JSON.stringify(API)
+        'process.env.API': JSON.stringify(API)
       }),
       new HtmlWebPackPlugin({
-        template: path.resolve(PATHS.src, "asset/template/index.html"),
-        filename: path.resolve(PATHS.dist, "index.html"),
-        favicon: path.resolve(PATHS.src, "asset/image/favicon.png")
+        template: path.resolve(PATHS.src, 'asset/template/index.html'),
+        filename: path.resolve(PATHS.dist, 'index.html'),
+        favicon: path.resolve(PATHS.src, 'asset/image/favicon.png')
       })
     ]
   });
