@@ -40,6 +40,13 @@ const Root = () => (
                 import(/* webpackChunkName: "Login" */ 'pages/Login')
               )}
             />
+            <Route
+              exact
+              path="/maps"
+              component={getComponentAsync(
+                import(/* webpackChunkName: "Login" */ 'pages/Maps')
+              )}
+            />
             {loginUtil.isLogin() ? (
               <App>
                 <Switch>

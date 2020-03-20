@@ -60,9 +60,11 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
+    "@supermap/iclient-leaflet": "^10.0.1",
     "antd": "^4.0.2",
     "axios": "^0.18.0",
     "babel-plugin-react-css-modules": "^3.4.2",
+    "leaflet": "^1.6.0",
     "mobx": "^5.1.0",
     "mobx-react": "^5.2.8",
     "open-browser-webpack-plugin": "^0.0.5",

@@ -11,6 +11,11 @@ module.exports = {
       path: 'pages/Login/index',
       route: '/login',
       name: '登录'
+    },
+    {
+      path: 'pages/Maps/index',
+      route: '/maps',
+      name: '地图'
     }
     // {
     //   path: 'pages/Test/Demo',

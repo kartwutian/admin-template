@@ -24,17 +24,13 @@ class LoginPage extends Component {
       phone: values.username,
       captcha: values.password
     });
-    if (res.code === 0) {
-      console.log('res ', res);
-      const { remember } = values;
-      if (remember) {
-        loginUtil.saveUserInfo(res.data);
-      }
-      message.success('登录成功');
-      window.location.href = '/';
-    } else if (res.code === 10200002) {
-      message.error('验证码错误！');
+    console.log('res ', res);
+    const { remember } = values;
+    if (remember) {
+      loginUtil.saveUserInfo(res.data);
     }
+    message.success('登录成功');
+    window.location.href = '/';
   };
 
   onFinishFailed = errorInfo => {
