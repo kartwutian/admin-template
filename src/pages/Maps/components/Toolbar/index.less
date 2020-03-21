@@ -1,0 +1,39 @@
+.toolbar__wrapper {
+  position: absolute;
+  z-index: 1000;
+  right: 10px;
+  top: 16px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  background-color: #fff;
+  color: #888;
+}
+
+.toolbar__item {
+  position: relative;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+.active {
+  color: #2d91e9;
+}
+
+.toolbar__item:not(:last-of-type) {
+  &::after {
+    position: absolute;
+    content: '';
+    width: 0;
+    top: 13px;
+    bottom: 13px;
+    right: 0;
+    border-right: 1px dashed #ccc;
+  }
+}
+:global(.ant-dropdown) {
+  z-index: 999999 !important;
+}
+:global(.ant-tooltip) {
+  z-index: 999999 !important;
+}

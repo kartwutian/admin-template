@@ -1,4 +1,7 @@
 {
+  "globals": {
+    "SuperMap": true
+  },
   "extends": "eslint-config-ali/react",
   "parser": "babel-eslint",
   "env": {

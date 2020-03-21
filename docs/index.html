@@ -1,0 +1,70 @@
+
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,  minimum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title></title>
+    <style type="text/css">
+        html, body, #map {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+        }
+        #viewEntire {
+            background-image:url(http://61.174.254.92:8090/iserver/services/map-wmts-ZJEMAP2D/rest/static/javascriptForMaps/img/viewEntire.png);
+            position:absolute;
+            top: 14px;
+            left: 20px;
+            z-index: 2000;
+            width:32px;
+            height:32px;
+        }
+        #zoomIn {
+            background-image:url(http://61.174.254.92:8090/iserver/services/map-wmts-ZJEMAP2D/rest/static/javascriptForMaps/img/zoomIn.png);
+            position:absolute;
+            top: 50px;
+            left: 20px;
+            z-index: 2000;
+            width:32px;
+            height:32px;
+        }
+        #zoomOut {
+            background-image:url(http://61.174.254.92:8090/iserver/services/map-wmts-ZJEMAP2D/rest/static/javascriptForMaps/img/zoomOut.png);
+            position:absolute;
+            top: 86px;
+            left: 20px;
+            z-index: 2000;
+            width:32px;
+            height:32px;
+        }
+    </style>
+    <link rel="stylesheet" href="http://61.174.254.92:8090/iserver/services/map-wmts-ZJEMAP2D/rest/static/leafletForMaps/lib/leaflet/leaflet.css" type="text/css" />
+	<!--[if lte IE 8]>
+	<script type="text/javascript" src="http://61.174.254.92:8090/iserver/services/map-wmts-ZJEMAP2D/rest/static/leafletForMaps/lib/leaflet/polyfill-ie8.min.js"></script>
+	<![endif]-->
+	<script type="text/javascript" src="http://61.174.254.92:8090/iserver/services/map-wmts-ZJEMAP2D/rest/static/leafletForMaps/lib/leaflet/leaflet.js"></script>
+	<script type="text/javascript" src="http://61.174.254.92:8090/iserver/services/map-wmts-ZJEMAP2D/rest/static/leafletForMaps/lib/leaflet/iclient9-leaflet.js"></script>
+    <script type="text/javascript" src="http://61.174.254.92:8090/iserver/services/map-wmts-ZJEMAP2D/rest/static/js/updateURI.js"></script>
+
+    <script type="text/javascript" src="./index.js">
+
+    </script>
+  </head>
+  <body onload="init()">
+    <div id="map"></div>
+    <!--
+    <div id="measureResult" style="position:absolute;bottom:23px;right:10px;z-index:2000; text-align: right;">
+        <p><input id="result" type="text" value="" style="background:none;border:none" readonly="true" /></p>
+	</div>
+	-->
+	<div id="coordsResult" style="position:absolute;bottom:5px;right:10px;z-index:2000; text-align: right;">
+        <p><input id="coordsText" type="text" value="" style="background:none;border:none" readonly="true" /></p>
+	</div>
+	<div id="scaleResult" style="position:absolute;bottom:23px;right:10px;z-index:2000; text-align: right;">
+    	<p><input id="scaleText" type="text" value="" style="background:none;border:none" readonly="true" /></p>
+	</div>
+
+  </body>
+</html>
