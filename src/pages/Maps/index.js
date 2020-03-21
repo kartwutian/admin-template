@@ -54,7 +54,7 @@ class MapsPage extends Component {
   initRestLayer = layers => {
     const restLayers = {};
     // console.log(SuperMap.ServerType.IPORTAL)
-    layers.forEach(item => {
+    layers.forEach((item, index) => {
       restLayers[item.layer] = L.supermap.tiledMapLayer(
         item.url,
         {
@@ -72,6 +72,7 @@ class MapsPage extends Component {
 
       if (item.init) {
         restLayers[item.layer].addTo(this.map);
+        restLayers[item.layer].setZIndex(index);
       }
     });
     return restLayers;
@@ -80,6 +81,7 @@ class MapsPage extends Component {
   init() {
     this.beforeMapInit();
     this.map = iServer.mapInit('map'); // 地图对象挂载到this上，用this.map调用
+    console.log(this.map);
     this.afterMapInit();
   }
 
@@ -99,8 +101,14 @@ class MapsPage extends Component {
       });
     } else {
       layerTypesMap[layerType].layers.forEach(item => {
+        // 保证图层的层级
+        let zIndex = 0;
+        while (item.layer !== REST_LAYERS[zIndex].layer) {
+          zIndex += 1;
+        }
         this.layers[item.layer].addTo(this.map);
         this.layers[item.layer].setOpacity(item.initOpacity);
+        this.layers[item.layer].setZIndex(zIndex);
       });
     }
   };
