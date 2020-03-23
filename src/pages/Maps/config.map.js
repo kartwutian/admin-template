@@ -113,11 +113,11 @@ export const originResult = {
   customEntireBounds: null,
   name: 'xzjx@xzjx',
   bounds: {
-    top: 30.565101958999644,
-    left: 119.43172806400004,
-    bottom: 29.74642287799971,
+    top: 31.565101958999644,
+    left: 118.43172806400004,
+    bottom: 28.74642287799971,
     leftBottom: { x: 119.43172806400004, y: 29.74642287799971 },
-    right: 120.72548968700006,
+    right: 121.72548968700006,
     rightTop: { x: 120.72548968700006, y: 30.565101958999644 },
   },
   backgroundStyle: {

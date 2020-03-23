@@ -5,6 +5,7 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 const common = require('./webpack.common');
 const PATHS = require('./PATHS');
+const { publicPath } = require('./config.common.js');
 // const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 module.exports = env => {
@@ -18,13 +19,14 @@ module.exports = env => {
     // compress: true,
     hot: true,
     inline: true,
-    disableHostCheck: true
+    disableHostCheck: true,
+    publicPath: publicPath || '/',
     // progress: true
   };
 
   if (API === 'dev') {
     devServer.proxy = {
-      '/api': 'http://pre.xxx.com' // 预发地址
+      '/api': 'http://pre.xxx.com', // 预发地址
     };
   } else {
     devServer.before = app => {
@@ -52,12 +54,12 @@ module.exports = env => {
 
   return merge(common, {
     entry: {
-      main: ['@babel/polyfill', path.resolve(PATHS.src, 'index.js')]
+      main: ['@babel/polyfill', path.resolve(PATHS.src, 'index.js')],
     },
     output: {
       filename: '[name].js',
       path: path.resolve(PATHS.dist),
-      publicPath: '/'
+      publicPath: publicPath || '/',
     },
     mode: 'development',
     devtool: 'inline-source-map',
@@ -68,19 +70,19 @@ module.exports = env => {
           test: /\.css$/,
           use: [
             {
-              loader: 'style-loader'
+              loader: 'style-loader',
             },
             {
-              loader: 'css-loader'
-            }
-          ]
+              loader: 'css-loader',
+            },
+          ],
         },
         {
           test: /\.less$/,
           exclude: path.resolve(PATHS.src, 'asset/stylesheet'),
           use: [
             {
-              loader: 'style-loader'
+              loader: 'style-loader',
             },
             {
               loader: 'css-loader',
@@ -89,43 +91,43 @@ module.exports = env => {
                 importLoaders: 1,
                 localIdentName: '[local]_[hash:base64:5]',
                 sourceMap: true,
-                minimize: true
-              }
+                minimize: true,
+              },
             },
             {
               loader: 'postcss-loader',
               options: {
                 plugins: [autoprefixer('last 2 version')],
-                sourceMap: true
-              }
+                sourceMap: true,
+              },
             },
             {
               loader: 'less-loader',
               options: {
-                javascriptEnabled: true
-              }
-            }
-          ]
+                javascriptEnabled: true,
+              },
+            },
+          ],
         },
         {
           test: /\.less$/,
           include: path.resolve(PATHS.src, 'asset/stylesheet'),
           use: [
             {
-              loader: 'style-loader'
+              loader: 'style-loader',
             },
             {
-              loader: 'css-loader'
+              loader: 'css-loader',
             },
             {
               loader: 'less-loader',
               options: {
-                javascriptEnabled: true
-              }
-            }
-          ]
-        }
-      ]
+                javascriptEnabled: true,
+              },
+            },
+          ],
+        },
+      ],
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
@@ -135,13 +137,13 @@ module.exports = env => {
       // }),
       new webpack.DefinePlugin({
         // 为项目注入环境变量
-        'process.env.API': JSON.stringify(API)
+        'process.env.API': JSON.stringify(API),
       }),
       new HtmlWebPackPlugin({
         template: path.resolve(PATHS.src, 'asset/template/index.html'),
         filename: path.resolve(PATHS.dist, 'index.html'),
-        favicon: path.resolve(PATHS.src, 'asset/image/favicon.png')
-      })
-    ]
+        favicon: path.resolve(PATHS.src, 'asset/image/favicon.png'),
+      }),
+    ],
   });
 };

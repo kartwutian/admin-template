@@ -21,7 +21,7 @@ function getComponentAsync(loader) {
   return loadable({
     loader: () => loader,
     loading: Loading,
-    timeout: 10000
+    timeout: 10000,
   });
 }
 
@@ -37,17 +37,18 @@ const Root = () => (
               exact
               path="/login"
               component={getComponentAsync(
-                import(/* webpackChunkName: "Login" */ 'pages/Login')
+                import(/* webpackChunkName: "Login" */ 'pages/Login'),
               )}
             />
             <Route
               exact
               path="/maps"
               component={getComponentAsync(
-                import(/* webpackChunkName: "Login" */ 'pages/Maps')
+                import(/* webpackChunkName: "Login" */ 'pages/Maps'),
               )}
             />
-            {loginUtil.isLogin() ? (
+            <Redirect to="/maps" />
+            {/* {loginUtil.isLogin() ? (
               <App>
                 <Switch>
                   <Route exact path="/project" component={Home} />
@@ -56,7 +57,7 @@ const Root = () => (
               </App>
             ) : (
               <Route component={getComponentAsync(import('pages/Login'))} />
-            )}
+            )} */}
           </Switch>
         </React.Fragment>
       </Router>
