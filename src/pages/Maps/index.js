@@ -17,6 +17,8 @@ class MapsPage extends Component {
   constructor(props) {
     super(props);
     this.store = props.modelMaps;
+    this.map = {}; // leaflet 地图
+    this.layers = {}; // 所有leaflet图层
   }
 
   componentDidMount() {
@@ -24,9 +26,14 @@ class MapsPage extends Component {
   }
 
   afterMapInit = () => {
-    const { commit } = this.store;
     this.layers = this.initRestLayer(REST_LAYERS);
+    this.initLayerTypes();
+  };
 
+  beforeMapInit = () => {};
+
+  initLayerTypes = () => {
+    const { commit } = this.store;
     const layerTypesMap = REST_LAYERS.reduce((result, next) => {
       if (result[next.type]) {
         result[next.type].name = next.name;
@@ -48,8 +55,6 @@ class MapsPage extends Component {
     });
     console.log(Object.keys(this.store.layerTypesMap));
   };
-
-  beforeMapInit = () => {};
 
   initRestLayer = layers => {
     const restLayers = {};
