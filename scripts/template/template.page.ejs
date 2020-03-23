@@ -8,10 +8,15 @@ import {} from 'antd';
 @observer
 @cssModules(styles)
 class <%= modelName%>Page extends Component {
+  constructor(props) {
+    super();
+    this.store = props.model<%= modelName%>;
+  }
+
   render() {
     return (
       <div>
-        <p>You clicked1 times</p>
+        <p><%= modelName%>Page</p>
       </div>
     );
   }

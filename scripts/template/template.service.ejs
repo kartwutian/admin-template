@@ -1,21 +1,26 @@
-import request from '<%=utilsPath%>/request'
+import request from '<%=utilsPath%>/request';
+
 <% if(list.length === 0){ %>
 export function getDemo(params) {
-    return request(`/api/ftts/user/login}`, {
-    method: 'GET',
-    data: params,
-  }, false)
+  return request(
+    '/api/ftts/user/login',
+    {
+      method: 'GET',
+      data: params,
+    },
+    false,
+  );
 }
 
 export function postTest(params) {
-  return request(`/app/ajaxLogout`, {
+  return request('/app/ajaxLogout', {
     method: 'post',
     data: params,
-  })
+  });
 }
-<% } %>
-
+<% } -%>
 <% list.forEach(function(item){ %>
+
 /**
 *<%=item.desc%>
 * @param params
@@ -26,4 +31,4 @@ export function <%=item.name%>(params) {
     data: params,
   })
 }
-<% }) %>
+<% }) -%>

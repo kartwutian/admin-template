@@ -20,10 +20,10 @@ export default class <%=modelName%> {
     }
   };
 
+  // 同步变更状态
   @action
-  login = async params => {
-    const res = await login(params);
-    console.log(res);
-    return res;
+  commit = payload => {
+    Object.keys(payload).forEach(key => (this[key] = payload[key]));
   };
+
 }
