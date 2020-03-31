@@ -76,14 +76,14 @@
     }
     const filename = path.win32.basename(basePath);
     const dirname = path.dirname(basePath);
-    console.log(basePath);
+    // console.log(basePath);
     // 注入page的参数, 过滤掉最后的index
     const modelName = `${path
       .relative(pagesPath, filename === 'index' ? dirname : basePath)
       .split('\\')
       .map(str => str[0].toUpperCase() + str.substr(1))
       .join('')}`;
-    console.log(modelName);
+    // console.log(modelName);
 
     const serviceName = path.win32.basename(dirname);
 
