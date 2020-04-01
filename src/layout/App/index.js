@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import cssModules from 'react-css-modules';
-import { Layout, Menu, Dropdown, /* Avatar, */ Tooltip, Tabs } from 'antd';
+import { Layout, Menu, Dropdown, /* Avatar, */ Tooltip } from 'antd';
 import {
   MenuFoldOutlined,
   LogoutOutlined,

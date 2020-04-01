@@ -1,4 +1,4 @@
-import { action } from 'mobx';
+// import { action } from 'mobx';
 import BaseModel from './Base';
 
 export default class GlobalStore extends BaseModel {
