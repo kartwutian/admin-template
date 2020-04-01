@@ -9,6 +9,7 @@
       "stylesheet/*": ["src/asset/stylesheet/*"],
       "image/*": ["src/asset/image/*"],
       "utils/*": ["src/utils/*"],
+      "models/*": ["src/models/*"],
       "layout/*": ["src/layout/*"],
       "components/*": ["src/components/*"],
       "pages/*": ["src/pages/*"],

@@ -56,6 +56,7 @@ module.exports = {
       layout: path.resolve(PATHS.src, 'layout'),
       components: path.resolve(PATHS.src, 'components'),
       pages: path.resolve(PATHS.src, 'pages'),
+      models: path.resolve(PATHS.src, 'models'),
       utils: path.resolve(PATHS.src, 'utils'),
       constant: path.resolve(PATHS.src, 'constant'),
     },

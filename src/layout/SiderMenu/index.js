@@ -43,11 +43,11 @@ class SiderMenu extends Component {
             </span>
           }
         >
-          <Menu.Item key="/project/form/basic">
-            <Link to="/project/form/basic">基础表单</Link>
+          <Menu.Item key="/form/basic">
+            <Link to="/form/basic">基础表单</Link>
           </Menu.Item>
-          <Menu.Item key="/project/form/step">
-            <Link to="/project/form/step">分步表单</Link>
+          <Menu.Item key="/form/step">
+            <Link to="/form/step">分步表单</Link>
           </Menu.Item>
         </SubMenu>
       </Menu>

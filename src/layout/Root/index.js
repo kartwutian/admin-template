@@ -47,10 +47,21 @@ const Root = () => (
                 import(/* webpackChunkName: "Login" */ 'pages/Maps'),
               )}
             />
+
             {loginUtil.isLogin() ? (
               <App>
                 <Switch>
                   <Route exact path="/project" component={Home} />
+                  <Route
+                    exact
+                    path="/form/basic"
+                    component={getComponentAsync(import('pages/Form/Basic'))}
+                  />
+                  <Route
+                    exact
+                    path="/form/step"
+                    component={getComponentAsync(import('pages/Form/Step'))}
+                  />
                   <Redirect to="/project" />
                 </Switch>
               </App>
