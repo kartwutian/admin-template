@@ -1,1 +1,1 @@
-exports.publicPath = '/HZYW_MAP/';
+exports.publicPath = '/';

@@ -1,24 +1,14 @@
-import { extendObservable, action } from 'mobx';
+import { action } from 'mobx';
+import BaseModel from '../../models/Base';
 import { login } from './_service.Login';
 
-export default class loginStore {
+export default class loginStore extends BaseModel {
   constructor() {
-    this.reset(true);
-  }
-
-  @action
-  reset = init => {
     const state = {
-      loading: false, // 是否显示加载状态
-      submiting: false
+      loading: 'false', // 是否显示加载状态
     };
-
-    if (init) {
-      extendObservable(this, state);
-    } else {
-      Object.keys(state).forEach(key => (this[key] = state[key]));
-    }
-  };
+    super(state);
+  }
 
   @action
   login = async params => {

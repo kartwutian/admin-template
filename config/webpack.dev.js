@@ -62,7 +62,7 @@ module.exports = env => {
       publicPath: publicPath || '/',
     },
     mode: 'development',
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     devServer: devServer,
     module: {
       rules: [

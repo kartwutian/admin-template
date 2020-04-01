@@ -3,7 +3,7 @@ import { observer, inject } from 'mobx-react';
 import { Link, withRouter } from 'react-router-dom';
 import cssModules from 'react-css-modules';
 import { message, Form, Input, Button, Checkbox } from 'antd';
-import loginUtil from 'util/login';
+import loginUtil from 'utils/login';
 
 import styles from './style.less';
 
@@ -15,14 +15,19 @@ class LoginPage extends Component {
   constructor(props) {
     super(props);
 
-    this.store = this.props.modelLogin;
+    this.store = props.modelLogin;
+  }
+
+  componentWillUnmount() {
+    const { destory } = this.store;
+    destory && destory();
   }
 
   handleSubmit = async values => {
     const { login } = this.props.modelLogin;
     const res = await login({
       phone: values.username,
-      captcha: values.password
+      captcha: values.password,
     });
     console.log('res ', res);
     const { remember } = values;
@@ -38,19 +43,20 @@ class LoginPage extends Component {
   };
 
   render() {
+    const { loading, commit } = this.store;
     const layout = {
       labelCol: {
-        span: 8
+        span: 8,
       },
       wrapperCol: {
-        span: 16
-      }
+        span: 16,
+      },
     };
     const tailLayout = {
       wrapperCol: {
         offset: 8,
-        span: 16
-      }
+        span: 16,
+      },
     };
 
     return (
@@ -70,13 +76,23 @@ class LoginPage extends Component {
             <div styleName="desc">
               Ant Design 是西湖区最具影响力的 Web 设计规范
             </div>
+            <Button
+              onClick={() => {
+                commit({
+                  loading: loading + 1,
+                });
+              }}
+            >
+              变换
+            </Button>
+            <div>{loading}</div>
           </div>
           <div styleName="login">
             <Form
               {...layout}
               name="basic"
               initialValues={{
-                remember: true
+                remember: true,
               }}
               onFinish={this.handleSubmit}
               onFinishFailed={this.onFinishFailed}
@@ -87,8 +103,8 @@ class LoginPage extends Component {
                 rules={[
                   {
                     required: true,
-                    message: '请输入账号名'
-                  }
+                    message: '请输入账号名',
+                  },
                 ]}
               >
                 <Input />
@@ -100,8 +116,8 @@ class LoginPage extends Component {
                 rules={[
                   {
                     required: true,
-                    message: '请输入密码'
-                  }
+                    message: '请输入密码',
+                  },
                 ]}
               >
                 <Input.Password />

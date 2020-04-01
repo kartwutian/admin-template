@@ -1,7 +1,9 @@
+import Global from '../models/Global';
 <% models.forEach(function(item){ %>import <%= item.name %> from '<%= item.path %>';
 <% }) %>
 
 export default {
+  globalStore: new Global(),
 <% models.forEach(function(item){ %>  model<%= item.name %>: new <%= item.name %>(),
 <% }) %>
 };

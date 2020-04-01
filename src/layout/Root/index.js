@@ -1,18 +1,18 @@
 import React from 'react';
 import loadable from 'react-loadable';
-import Loading from 'component/Loading';
+import Loading from 'components/Loading';
 import { hot } from 'react-hot-loader';
 import { Router, Route, Redirect, Switch } from 'react-router-dom';
 import { createHashHistory } from 'history';
 import { Provider } from 'mobx-react';
-// import App from 'layout/App';
-import store from 'store';
+import App from 'layout/App/index';
+import store from '@/store/index';
 import { ConfigProvider } from 'antd';
-// import loginUtil from 'util/login';
+import loginUtil from 'utils/login';
 import zh_CN from 'antd/es/locale/zh_CN';
 import 'moment/locale/zh-cn';
 
-// import Home from 'pages/Home';
+import Home from 'pages/Home';
 
 import 'stylesheet/cantd.less';
 import 'stylesheet/app.less';
@@ -47,8 +47,7 @@ const Root = () => (
                 import(/* webpackChunkName: "Login" */ 'pages/Maps'),
               )}
             />
-            <Redirect to="/maps" />
-            {/* {loginUtil.isLogin() ? (
+            {loginUtil.isLogin() ? (
               <App>
                 <Switch>
                   <Route exact path="/project" component={Home} />
@@ -57,7 +56,7 @@ const Root = () => (
               </App>
             ) : (
               <Route component={getComponentAsync(import('pages/Login'))} />
-            )} */}
+            )}
           </Switch>
         </React.Fragment>
       </Router>

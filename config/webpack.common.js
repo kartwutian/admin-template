@@ -10,16 +10,16 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.json$/,
         use: [
           {
-            loader: 'json-loader'
-          }
-        ]
+            loader: 'json-loader',
+          },
+        ],
       },
       {
         test: /\.(png|gif|jpg)$/,
@@ -28,10 +28,10 @@ module.exports = {
             loader: 'url-loader',
             options: {
               limit: 10240,
-              name: path.normalize('assets/[name].[ext]')
-            }
-          }
-        ]
+              name: path.normalize('assets/[name].[ext]'),
+            },
+          },
+        ],
       },
       {
         test: /\.(woff|woff2|ttf|eot|svg)$/,
@@ -40,12 +40,12 @@ module.exports = {
             loader: 'url-loader',
             options: {
               limit: 10240,
-              name: path.normalize('assets/[name].[ext]')
-            }
-          }
-        ]
-      }
-    ]
+              name: path.normalize('assets/[name].[ext]'),
+            },
+          },
+        ],
+      },
+    ],
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -54,12 +54,11 @@ module.exports = {
       stylesheet: path.resolve(PATHS.src, 'asset/stylesheet'),
       image: path.resolve(PATHS.src, 'asset/image'),
       layout: path.resolve(PATHS.src, 'layout'),
-      component: path.resolve(PATHS.src, 'component'),
+      components: path.resolve(PATHS.src, 'components'),
       pages: path.resolve(PATHS.src, 'pages'),
-      util: path.resolve(PATHS.src, 'util'),
+      utils: path.resolve(PATHS.src, 'utils'),
       constant: path.resolve(PATHS.src, 'constant'),
-      store: path.resolve(PATHS.src, 'store')
-    }
+    },
   },
-  plugins: [new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)]
+  plugins: [new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)],
 };

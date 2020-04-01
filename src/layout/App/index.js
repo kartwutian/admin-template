@@ -8,26 +8,26 @@ import {
   MenuUnfoldOutlined,
   QuestionCircleOutlined,
   UserAddOutlined,
-  SettingOutlined
+  SettingOutlined,
 } from '@ant-design/icons';
-import SiderMenu from 'layout/SiderMenu';
-import loginUtil from 'util/login';
+import SiderMenu from 'layout/SiderMenu/index';
+import loginUtil from 'utils/login';
 import styles from './style.less';
 
 const { Header, Sider, Content } = Layout;
 
 @withRouter
 @cssModules(styles, {
-  allowMultiple: true
+  allowMultiple: true,
 })
 class App extends Component {
   state = {
-    collapsed: false
+    collapsed: false,
   };
 
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed
+      collapsed: !this.state.collapsed,
     });
   };
 
