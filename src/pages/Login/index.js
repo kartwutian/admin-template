@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import { observer, inject } from 'mobx-react';
 import { Link, withRouter } from 'react-router-dom';
 import cssModules from 'react-css-modules';
 import { message, Form, Input, Button, Checkbox } from 'antd';
 import loginUtil from 'utils/login';
-
-import styles from './style.less';
+import { appHistory } from 'layout/Root/index';
+import styles from './index.less';
 
 @withRouter
 @inject('modelLogin')
@@ -16,6 +16,15 @@ class LoginPage extends Component {
     super(props);
 
     this.store = props.modelLogin;
+    this.formRef = createRef();
+  }
+
+  componentDidMount() {
+    this.formRef.current.setFieldsValue({
+      username: 'Bamboo',
+      password: '123456',
+      remember: true,
+    });
   }
 
   componentWillUnmount() {
@@ -35,7 +44,7 @@ class LoginPage extends Component {
       loginUtil.saveUserInfo(res.data);
     }
     message.success('登录成功');
-    window.location.href = '/';
+    appHistory.push('/');
   };
 
   onFinishFailed = errorInfo => {
@@ -43,57 +52,26 @@ class LoginPage extends Component {
   };
 
   render() {
-    const { loading, commit } = this.store;
-    const layout = {
-      labelCol: {
-        span: 8,
-      },
-      wrapperCol: {
-        span: 16,
-      },
-    };
-    const tailLayout = {
-      wrapperCol: {
-        offset: 8,
-        span: 16,
-      },
-    };
-
     return (
-      <div styleName="container">
+      <div styleName="page">
         <div styleName="content">
           <div styleName="top">
             <div styleName="header">
               <Link to="/">
                 <img
-                  className={styles.logo}
+                  styleName="logo"
                   src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
                   alt="logo"
                 />
-                <span styleName="title">Ant Design</span>
+                <span styleName="title">基于 Ant Design</span>
               </Link>
             </div>
-            <div styleName="desc">
-              Ant Design 是西湖区最具影响力的 Web 设计规范
-            </div>
-            <Button
-              onClick={() => {
-                commit({
-                  loading: loading + 1,
-                });
-              }}
-            >
-              变换
-            </Button>
-            <div>{loading}</div>
+            <div styleName="desc">万博通用后台管理系统模板</div>
           </div>
           <div styleName="login">
             <Form
-              {...layout}
               name="basic"
-              initialValues={{
-                remember: true,
-              }}
+              ref={this.formRef}
               onFinish={this.handleSubmit}
               onFinishFailed={this.onFinishFailed}
             >
@@ -123,16 +101,12 @@ class LoginPage extends Component {
                 <Input.Password />
               </Form.Item>
 
-              <Form.Item
-                {...tailLayout}
-                name="remember"
-                valuePropName="checked"
-              >
+              <Form.Item name="remember" valuePropName="checked">
                 <Checkbox>记住密码</Checkbox>
               </Form.Item>
 
-              <Form.Item {...tailLayout}>
-                <Button block type="primary" htmlType="submit">
+              <Form.Item>
+                <Button size="large" block type="primary" htmlType="submit">
                   登录
                 </Button>
               </Form.Item>
