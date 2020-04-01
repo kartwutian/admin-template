@@ -9,24 +9,37 @@ const { publicPath } = require('./config.common.js');
 // const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 module.exports = env => {
-  const API = (env || {}).API || 'mock';
+  const API = (env || {}).API || 'dev';
 
   console.log('API %s', API);
 
   const devServer = {
     contentBase: path.resolve(PATHS.dist),
     historyApiFallback: true,
-    // compress: true,
+    compress: true,
     hot: true,
     inline: true,
     disableHostCheck: true,
     publicPath: publicPath || '/',
-    // progress: true
+    progress: true,
   };
 
   if (API === 'dev') {
     devServer.proxy = {
-      '/api': 'http://pre.xxx.com', // 预发地址
+      '/api': {
+        target: 'http://rap2api.taobao.org',
+        pathRewrite: {
+          '^/api': '/app/mock/84445/api/post',
+        },
+        // changeOrigin: true,
+        // onProxyRes: function(proxyReq, req, res) {
+        //   console.log('--------------------------------');
+        //   console.log(proxyReq);
+        //   console.log(req);
+        //   // console.log(res);
+        //   console.log('--------------------------------');
+        // }
+      },
     };
   } else {
     devServer.before = app => {
@@ -34,22 +47,6 @@ module.exports = env => {
         res.json(require('../mock/login').login);
       });
     };
-    // devServer.proxy = {
-    //   '/api': {
-    //     target: 'http://rap2api.taobao.org',
-    //     pathRewrite: {
-    //       '^/api': '/app/mock/84445/api/post'
-    //     }
-    //     // changeOrigin: true,
-    //     // onProxyRes: function(proxyReq, req, res) {
-    //     //   console.log('--------------------------------');
-    //     //   console.log(proxyReq);
-    //     //   console.log(req);
-    //     //   // console.log(res);
-    //     //   console.log('--------------------------------');
-    //     // }
-    //   }
-    // };
   }
 
   return merge(common, {

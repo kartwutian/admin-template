@@ -52,6 +52,7 @@ class LoginPage extends Component {
   };
 
   render() {
+    const { loading } = this.store;
     return (
       <div styleName="page">
         <div styleName="content">
@@ -106,7 +107,13 @@ class LoginPage extends Component {
               </Form.Item>
 
               <Form.Item>
-                <Button size="large" block type="primary" htmlType="submit">
+                <Button
+                  loading={loading.login}
+                  size="large"
+                  block
+                  type="primary"
+                  htmlType="submit"
+                >
                   登录
                 </Button>
               </Form.Item>

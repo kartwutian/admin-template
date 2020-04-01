@@ -6,8 +6,8 @@
   "author": "bhz",
   "license": "ISC",
   "scripts": {
-    "mock": "webpack-dev-server --open --config config/webpack.dev.js",
-    "dev": "webpack-dev-server --open --config config/webpack.dev.js --env.API=dev",
+    "mock": "webpack-dev-server --open --config config/webpack.dev.js --env.API=mock",
+    "dev": "webpack-dev-server --open --config config/webpack.dev.js",
     "build": "webpack --progress --config config/webpack.prod.js",
     "g:pages": "node ./scripts/generatePages.js"
   },
