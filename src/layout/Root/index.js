@@ -1,5 +1,4 @@
-import React from 'react';
-import loadable from 'react-loadable';
+import React, { Fragment, lazy, Suspense, Component } from 'react';
 import Loading from 'components/Loading';
 import { hot } from 'react-hot-loader';
 import { Router, Route, Redirect, Switch } from 'react-router-dom';
@@ -12,67 +11,142 @@ import loginUtil from 'utils/login';
 import zh_CN from 'antd/es/locale/zh_CN';
 import 'moment/locale/zh-cn';
 
-import Home from 'pages/Home';
-
 import 'stylesheet/cantd.less';
 import 'stylesheet/app.less';
-
-function getComponentAsync(loader) {
-  return loadable({
-    loader: () => loader,
-    loading: Loading,
-    timeout: 10000,
-  });
-}
+import 'stylesheet/animate.css';
 
 export const appHistory = createHashHistory();
 
-const Root = () => (
-  <Provider {...store}>
-    <ConfigProvider locale={zh_CN}>
-      <Router history={appHistory}>
-        <React.Fragment>
-          <Switch>
-            <Route
-              exact
-              path="/login"
-              component={getComponentAsync(
-                import(/* webpackChunkName: "Login" */ 'pages/Login'),
-              )}
-            />
-            <Route
-              exact
-              path="/maps"
-              component={getComponentAsync(
-                import(/* webpackChunkName: "Login" */ 'pages/Maps'),
-              )}
-            />
+// /**
+//  * 模拟延时加载组件
+//  * @param {} value
+//  * @param {*} ms
+//  */
+// function slowImport(value, ms = 1000) {
+//   return new Promise(resolve => {
+//     setTimeout(() => resolve(value), ms);
+//   });
+// }
 
-            {loginUtil.isLogin() ? (
-              <App>
-                <Switch>
-                  <Route exact path="/project" component={Home} />
+class Root extends Component {
+  // state = {
+  //   isError: false,
+  // };
+
+  static getDerivedStateFromError(error) {
+    console.error(error);
+    return { isError: true };
+  }
+
+  componentDidCatch(err, info) {
+    console.log(err, info);
+  }
+
+  render() {
+    return (
+      <Provider {...store}>
+        <ConfigProvider locale={zh_CN}>
+          <Router history={appHistory}>
+            <Fragment>
+              <Switch>
+                <Route
+                  exact
+                  path="/login"
+                  render={props => {
+                    const Temp = lazy(() => import('pages/Login'));
+                    return (
+                      <Suspense fallback={<Loading />}>
+                        <div className="animated faster fadeInRight">
+                          <Temp {...props} />
+                        </div>
+                      </Suspense>
+                    );
+                  }}
+                />
+                <Route
+                  exact
+                  path="/maps"
+                  render={props => {
+                    const Temp = lazy(() => import('pages/Maps'));
+                    return (
+                      <Suspense fallback={<Loading />}>
+                        <div className="animated faster fadeInRight">
+                          <Temp {...props} />
+                        </div>
+                      </Suspense>
+                    );
+                  }}
+                />
+
+                {loginUtil.isLogin() ? (
+                  <App>
+                    <Switch>
+                      <Route
+                        exact
+                        path="/project"
+                        render={props => {
+                          const Temp = lazy(() => import('pages/Home'));
+                          return (
+                            <Suspense fallback={<Loading />}>
+                              <div className="animated faster fadeInRight">
+                                <Temp {...props} />
+                              </div>
+                            </Suspense>
+                          );
+                        }}
+                      />
+                      <Route
+                        exact
+                        path="/form/basic"
+                        render={props => {
+                          const Temp = lazy(() => import('pages/Form/Basic'));
+                          return (
+                            <Suspense fallback={<Loading />}>
+                              <div className="animated faster fadeInRight">
+                                <Temp {...props} />
+                              </div>
+                            </Suspense>
+                          );
+                        }}
+                      />
+                      <Route
+                        exact
+                        path="/form/step"
+                        render={props => {
+                          const Temp = lazy(() => import('pages/Form/Step'));
+                          return (
+                            <Suspense fallback={<Loading />}>
+                              <div className="animated faster fadeInRight">
+                                <Temp {...props} />
+                              </div>
+                            </Suspense>
+                          );
+                        }}
+                      />
+                      <Redirect to="/project" />
+                    </Switch>
+                  </App>
+                ) : (
                   <Route
-                    exact
-                    path="/form/basic"
-                    component={getComponentAsync(import('pages/Form/Basic'))}
+                    render={props => {
+                      const Temp = lazy(() => import('pages/Login'));
+                      return (
+                        <Suspense fallback={<Loading />}>
+                          <div className="animated faster fadeInRight">
+                            <Temp {...props} />
+                          </div>
+                        </Suspense>
+                      );
+                    }}
                   />
-                  <Route
-                    exact
-                    path="/form/step"
-                    component={getComponentAsync(import('pages/Form/Step'))}
-                  />
-                  <Redirect to="/project" />
-                </Switch>
-              </App>
-            ) : (
-              <Route component={getComponentAsync(import('pages/Login'))} />
-            )}
-          </Switch>
-        </React.Fragment>
-      </Router>
-    </ConfigProvider>
-  </Provider>
-);
+                )}
+              </Switch>
+            </Fragment>
+          </Router>
+        </ConfigProvider>
+      </Provider>
+    );
+  }
+}
 
 export default hot(module)(Root);
