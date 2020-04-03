@@ -5,7 +5,6 @@ import FormBasic from '../pages/Form/Basic.model';
 import FormStep from '../pages/Form/Step.model';
 import Maps from '../pages/Maps/index.model';
 
-
 export default {
   globalStore: new Global(),
   modelHome: new Home(),
@@ -13,5 +12,4 @@ export default {
   modelFormBasic: new FormBasic(),
   modelFormStep: new FormStep(),
   modelMaps: new Maps(),
-
 };

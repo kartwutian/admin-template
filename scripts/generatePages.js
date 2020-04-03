@@ -4,28 +4,29 @@
   const path = require('path');
   const fs = require('fs');
   const ejs = require('ejs');
+  const routerParser = require('./routerParser');
   const { generateFile, getStat } = require('./generateFile.js');
 
   const { pages } = require('../src/pages.js');
 
   const defaultTemplatePage = fs.readFileSync(
-    path.resolve(__dirname, './template/template.page.ejs')
+    path.resolve(__dirname, './template/template.page.ejs'),
   );
   const defaultTemplateModel = fs.readFileSync(
-    path.resolve(__dirname, './template/template.model.ejs')
+    path.resolve(__dirname, './template/template.model.ejs'),
   );
   const templateLess = fs.readFileSync(
-    path.resolve(__dirname, './template/template.less.ejs')
+    path.resolve(__dirname, './template/template.less.ejs'),
   );
   const templateService = fs.readFileSync(
-    path.resolve(__dirname, './template/template.service.ejs')
+    path.resolve(__dirname, './template/template.service.ejs'),
   );
   const templateStore = fs.readFileSync(
-    path.resolve(__dirname, './template/template.store.index.ejs')
+    path.resolve(__dirname, './template/template.store.index.ejs'),
   );
-  // const templateLessEntry = fs.readFileSync(
-  //   path.resolve(__dirname, './template/template.less.entry.ejs')
-  // );
+  const templateRouter = fs.readFileSync(
+    path.resolve(__dirname, './template/template.router.ejs'),
+  );
 
   // 存储所有model信息，用于生产store.js
   const models = [];
@@ -47,11 +48,11 @@
     if (template) {
       const templatePagePath = path.resolve(
         __dirname,
-        `./template/${template}/template.page.ejs`
+        `./template/${template}/template.page.ejs`,
       );
       const templateModelPath = path.resolve(
         __dirname,
-        `./template/${template}/template.model.ejs`
+        `./template/${template}/template.model.ejs`,
       );
       if (await getStat(templatePagePath)) {
         console.log(`使用 ${template} page模板`);
@@ -95,14 +96,14 @@
       template: ejs.render(templatePage.toString(), {
         modelName,
         stylePath: `./${filename}.less`,
-        config: pageConfig
-      })
+        config: pageConfig,
+      }),
     });
     // 生成less文件
     await generateFile({
       filePath: `${basePath}.less`,
       template: ejs.render(templateLess.toString()),
-      config: pageConfig
+      config: pageConfig,
     });
     // 生成model文件
     await generateFile({
@@ -110,8 +111,8 @@
       template: ejs.render(templateModel.toString(), {
         modelName,
         servicePath: `./_service.${serviceName}.js`,
-        config: pageConfig
-      })
+        config: pageConfig,
+      }),
     });
     // 生成service文件
     await generateFile({
@@ -123,8 +124,8 @@
           .relative(dirname, utilsPath)
           .split('\\')
           .join('/')}`,
-        config: pageConfig
-      })
+        config: pageConfig,
+      }),
     });
 
     models.push({
@@ -132,7 +133,7 @@
       path: `${path
         .relative(storePath, `${basePath}.model`)
         .split('\\')
-        .join('/')}`
+        .join('/')}`,
     });
   };
 
@@ -146,10 +147,20 @@
     {
       filePath: path.resolve(storePath, 'index.js'),
       template: ejs.render(templateStore.toString(), {
-        models
-      })
+        models,
+      }),
     },
-    true
+    true,
+  );
+
+  await generateFile(
+    {
+      filePath: path.resolve(sourceCodePath, 'router.js'),
+      template: ejs.render(templateRouter.toString(), {
+        router: JSON.stringify(routerParser(pages), null, 2),
+      }),
+    },
+    true,
   );
 
   console.log('ok！');
