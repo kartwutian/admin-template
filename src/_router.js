@@ -1,14 +1,6 @@
-/* eslint-disable quotes */
+/* eslint-disable */
+
 const router = [
-  {
-    route: '/',
-    children: [],
-    meta: {
-      path: 'pages/Home/index',
-      route: '/',
-      name: '根路径',
-    },
-  },
   {
     route: '/project',
     children: [],
@@ -25,17 +17,18 @@ const router = [
       path: 'pages/Login/index',
       route: '/login',
       name: '登录',
+      isInLayout: false,
     },
   },
   {
     route: '/form',
     children: [
       {
-        route: '/form/baisc',
+        route: '/form/basic',
         children: [],
         meta: {
           path: 'pages/Form/Basic',
-          route: '/form/baisc',
+          route: '/form/basic',
           template: 'list',
           name: 'basic',
         },
@@ -51,7 +44,10 @@ const router = [
         },
       },
     ],
-    meta: {},
+    meta: {
+      route: '/form',
+      name: '表单页',
+    },
   },
   {
     route: '/maps',
@@ -60,6 +56,7 @@ const router = [
       path: 'pages/Maps/index',
       route: '/maps',
       name: '地图',
+      roles: 'admin',
     },
   },
 ];

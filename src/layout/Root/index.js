@@ -1,13 +1,18 @@
+/* eslint-disable */
+
 import React, { Fragment, lazy, Suspense, Component } from 'react';
 import Loading from 'components/Loading';
 import { hot } from 'react-hot-loader';
-import { Router, Route, Redirect, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import { createHashHistory } from 'history';
 import { Provider } from 'mobx-react';
 import App from 'layout/App/index';
 import store from '@/store/index';
 import { ConfigProvider } from 'antd';
+import Exception from 'components/Exception/index.js';
 import loginUtil from 'utils/login';
+import auth from 'utils/auth';
+import router from '@/_router';
 import zh_CN from 'antd/es/locale/zh_CN';
 import 'moment/locale/zh-cn';
 
@@ -16,6 +21,9 @@ import 'stylesheet/app.less';
 import 'stylesheet/animate.css';
 
 export const appHistory = createHashHistory();
+
+const routerOut = router.filter(item => item.meta.isInLayout === false);
+const routerInner = router.filter(item => item.meta.isInLayout !== false);
 
 // /**
 //  * 模拟延时加载组件
@@ -27,6 +35,51 @@ export const appHistory = createHashHistory();
 //     setTimeout(() => resolve(value), ms);
 //   });
 // }
+
+const renderRouter = routes => {
+  const children = [];
+
+  function renderRoutes(arr) {
+    arr.forEach(route => {
+      if (!route.meta.path) {
+        children.push(null);
+      } else {
+        const curRoute = (
+          <Route
+            key={route.route}
+            exact
+            path={route.route}
+            render={props => {
+              let isAuth = true;
+              if (route.meta.roles) {
+                isAuth = auth(route.meta.roles);
+              }
+              const Temp = lazy(() => import(`../../${route.meta.path}`)); // 有变量的情况不能使用别名
+              return isAuth ? (
+                <Suspense fallback={<Loading />}>
+                  <div className="animated faster fadeInRight">
+                    <Temp {...props} />
+                  </div>
+                </Suspense>
+              ) : (
+                <Exception type="403"></Exception>
+              );
+            }}
+          />
+        );
+        children.push(curRoute);
+      }
+
+      console.log(route.children.length);
+      if (route.children.length) {
+        renderRoutes(route.children);
+      }
+    });
+  }
+  renderRoutes(routes);
+  console.log(children);
+  return children;
+};
 
 class Root extends Component {
   // state = {
@@ -43,87 +96,23 @@ class Root extends Component {
   }
 
   render() {
+    console.log(renderRouter(routerInner));
     return (
       <Provider {...store}>
         <ConfigProvider locale={zh_CN}>
           <Router history={appHistory}>
             <Fragment>
               <Switch>
-                <Route
-                  exact
-                  path="/login"
-                  render={props => {
-                    const Temp = lazy(() => import('pages/Login'));
-                    return (
-                      <Suspense fallback={<Loading />}>
-                        <div className="animated faster fadeInRight">
-                          <Temp {...props} />
-                        </div>
-                      </Suspense>
-                    );
-                  }}
-                />
-                <Route
-                  exact
-                  path="/maps"
-                  render={props => {
-                    const Temp = lazy(() => import('pages/Maps'));
-                    return (
-                      <Suspense fallback={<Loading />}>
-                        <div className="animated faster fadeInRight">
-                          <Temp {...props} />
-                        </div>
-                      </Suspense>
-                    );
-                  }}
-                />
-
+                {renderRouter(routerOut)}
                 {loginUtil.isLogin() ? (
                   <App>
                     <Switch>
+                      {renderRouter(routerInner)}
                       <Route
-                        exact
-                        path="/project"
                         render={props => {
-                          const Temp = lazy(() => import('pages/Home'));
-                          return (
-                            <Suspense fallback={<Loading />}>
-                              <div className="animated faster fadeInRight">
-                                <Temp {...props} />
-                              </div>
-                            </Suspense>
-                          );
+                          return <Exception type="404" />;
                         }}
                       />
-                      <Route
-                        exact
-                        path="/form/basic"
-                        render={props => {
-                          const Temp = lazy(() => import('pages/Form/Basic'));
-                          return (
-                            <Suspense fallback={<Loading />}>
-                              <div className="animated faster fadeInRight">
-                                <Temp {...props} />
-                              </div>
-                            </Suspense>
-                          );
-                        }}
-                      />
-                      <Route
-                        exact
-                        path="/form/step"
-                        render={props => {
-                          const Temp = lazy(() => import('pages/Form/Step'));
-                          return (
-                            <Suspense fallback={<Loading />}>
-                              <div className="animated faster fadeInRight">
-                                <Temp {...props} />
-                              </div>
-                            </Suspense>
-                          );
-                        }}
-                      />
-                      <Redirect to="/project" />
                     </Switch>
                   </App>
                 ) : (

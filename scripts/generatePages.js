@@ -44,6 +44,8 @@
     let templatePage = defaultTemplatePage;
     let templateModel = defaultTemplateModel;
 
+    if (!route) return; // 如果没有path，说明不用生成页面，是用于创建menus
+
     // 如果存在自定义模板，则选自定义模板为输入
     if (template) {
       const templatePagePath = path.resolve(
@@ -155,7 +157,7 @@
 
   await generateFile(
     {
-      filePath: path.resolve(sourceCodePath, 'router.js'),
+      filePath: path.resolve(sourceCodePath, '_router.js'), // 取名下划线开头，代表内部生成
       template: ejs.render(templateRouter.toString(), {
         router: JSON.stringify(routerParser(pages), null, 2),
       }),

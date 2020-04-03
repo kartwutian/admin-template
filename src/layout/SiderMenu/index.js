@@ -1,11 +1,50 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Menu } from 'antd';
-import { MenuFoldOutlined } from '@ant-design/icons';
+// import { MenuFoldOutlined } from '@ant-design/icons';
+import router from '@/_router';
+import auth from 'utils/auth';
 
 const { SubMenu } = Menu;
 
 // import style from './style.less';
+
+const renderSubMenu = route => {
+  if (route.meta.isHideInMenus) return null; // 如果设置了隐藏，则菜单不显示
+  if (route.meta.roles && !auth(route.meta.roles)) return null; // 如果有设置权限，则只展示有权限的菜单
+
+  return (
+    <SubMenu
+      key={route.route}
+      title={
+        <span>
+          <span>{route.meta.name}</span>
+        </span>
+      }
+    >
+      {renderMenus(route.children)}
+    </SubMenu>
+  );
+};
+
+const renderMenuItem = route => {
+  if (route.meta.isHideInMenus) return null; // 如果设置了隐藏，则菜单不显示
+  if (route.meta.roles && !auth(route.meta.roles)) return null; // 如果有设置权限，则只展示有权限的菜单
+  return (
+    <Menu.Item key={route.route}>
+      <Link to={route.route}>{route.meta.name}</Link>
+    </Menu.Item>
+  );
+};
+
+const renderMenus = routes => {
+  return routes.map(route => {
+    if (route.children.length) {
+      return renderSubMenu(route);
+    }
+    return renderMenuItem(route);
+  });
+};
 
 @withRouter
 class SiderMenu extends Component {
@@ -19,7 +58,6 @@ class SiderMenu extends Component {
 
   render() {
     const { collapsed, location } = this.props;
-
     return (
       <Menu
         defaultSelectedKeys={['/project']}
@@ -30,26 +68,7 @@ class SiderMenu extends Component {
         inlineCollapsed={collapsed}
         onClick={this.handleMenuClick}
       >
-        <Menu.Item key="/project">
-          <MenuFoldOutlined />
-          {/* <Link to="/project">首页</Link> */}
-          <span>首页</span>
-        </Menu.Item>
-        <SubMenu
-          key="form"
-          title={
-            <span>
-              <span>表单页</span>
-            </span>
-          }
-        >
-          <Menu.Item key="/form/basic">
-            <Link to="/form/basic">基础表单</Link>
-          </Menu.Item>
-          <Menu.Item key="/form/step">
-            <Link to="/form/step">分步表单</Link>
-          </Menu.Item>
-        </SubMenu>
+        {renderMenus(router)}
       </Menu>
     );
   }

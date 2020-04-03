@@ -63,6 +63,7 @@
     "antd": "^4.0.2",
     "axios": "^0.18.0",
     "babel-plugin-react-css-modules": "^3.4.2",
+    "classnames": "^2.2.6",
     "leaflet": "^1.6.0",
     "mobx": "^5.1.0",
     "mobx-react": "^5.2.8",

@@ -11,23 +11,31 @@ module.exports = {
       path: 'pages/Login/index',
       route: '/login',
       name: '登录',
+      isInLayout: false, // 标记不包括layout
+    },
+    {
+      route: '/form', // 每一批path,代表不生成页面
+      name: '表单页',
     },
     {
       path: 'pages/Form/Basic',
-      route: '/form/baisc',
+      route: '/form/basic',
       template: 'list',
       name: 'basic',
+      // roles: ['user'], // 用于权限控制，菜单和路由
     },
     {
       path: 'pages/Form/Step',
       route: '/form/step',
       template: 'list',
       name: 'step',
+      // roles: 'admin', // 用于权限控制，菜单和路由
     },
     {
       path: 'pages/Maps/index',
       route: '/maps',
       name: '地图',
+      // isHideInMenus: true, // 代表在菜单栏隐藏菜单
     },
     // {
     //   path: 'pages/Test/Demo',
