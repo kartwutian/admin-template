@@ -13,8 +13,15 @@ export default class GlobalStore extends BaseModel {
   }
 
   @action
-  updateRoutes() {
+  updateRoutes = () => {
     // 此处可以异步获取路由
-    this.router = router;
-  }
+    this.router = [
+      {
+        route: '/project',
+        routes: [],
+        path: 'pages/Home/index',
+        name: '首页',
+      },
+    ];
+  };
 }

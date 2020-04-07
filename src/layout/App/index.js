@@ -18,11 +18,11 @@ import styles from './style.less';
 const { Header, Sider, Content } = Layout;
 
 @withRouter
+@inject('globalStore')
+@observer
 @cssModules(styles, {
   allowMultiple: true,
 })
-@inject('globalStore')
-@observer
 class App extends Component {
   constructor(props) {
     super(props);

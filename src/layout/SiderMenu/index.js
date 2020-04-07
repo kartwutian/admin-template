@@ -10,36 +10,36 @@ const { SubMenu } = Menu;
 // import style from './style.less';
 
 const renderSubMenu = (route) => {
-  if (route.meta.isHideInMenus) return null; // 如果设置了隐藏，则菜单不显示
-  if (route.meta.roles && !auth(route.meta.roles)) return null; // 如果有设置权限，则只展示有权限的菜单
+  if (route.isHideInMenus) return null; // 如果设置了隐藏，则菜单不显示
+  if (route.authority && !auth(route.authority)) return null; // 如果有设置权限，则只展示有权限的菜单
 
   return (
     <SubMenu
       key={route.route}
       title={
         <span>
-          <span>{route.meta.name}</span>
+          <span>{route.name}</span>
         </span>
       }
     >
-      {renderMenus(route.children)}
+      {renderMenus(route.routes)}
     </SubMenu>
   );
 };
 
 const renderMenuItem = (route) => {
-  if (route.meta.isHideInMenus) return null; // 如果设置了隐藏，则菜单不显示
-  if (route.meta.roles && !auth(route.meta.roles)) return null; // 如果有设置权限，则只展示有权限的菜单
+  if (route.isHideInMenus) return null; // 如果设置了隐藏，则菜单不显示
+  if (route.authority && !auth(route.authority)) return null; // 如果有设置权限，则只展示有权限的菜单
   return (
     <Menu.Item key={route.route}>
-      <Link to={route.route}>{route.meta.name}</Link>
+      <Link to={route.route}>{route.name}</Link>
     </Menu.Item>
   );
 };
 
 const renderMenus = (routes) => {
   return routes.map((route) => {
-    if (route.children.length) {
+    if (route.routes.length) {
       return renderSubMenu(route);
     }
     return renderMenuItem(route);

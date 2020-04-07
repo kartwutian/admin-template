@@ -7,7 +7,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 import { createHashHistory } from 'history';
 import { Provider } from 'mobx-react';
 import App from 'layout/App/index';
-import store, { globalStore } from '@/store/index';
+import store from '@/store/index';
 import { ConfigProvider } from 'antd';
 import Exception from 'components/Exception/index.js';
 import loginUtil from 'utils/login';
@@ -21,11 +21,13 @@ import 'stylesheet/animate.css';
 
 export const appHistory = createHashHistory();
 
+const globalStore = store.globalStore;
+
 const routerOut = globalStore.router.filter(
-  (item) => item.meta.isInLayout === false,
+  (item) => item.isInLayout === false,
 );
 const routerInner = globalStore.router.filter(
-  (item) => item.meta.isInLayout !== false,
+  (item) => item.isInLayout !== false,
 );
 
 // /**
@@ -44,7 +46,7 @@ const renderRouter = (routes) => {
 
   function renderRoutes(arr) {
     arr.forEach((route) => {
-      if (!route.meta.path) {
+      if (!route.path) {
         children.push(null);
       } else {
         const curRoute = (
@@ -54,10 +56,10 @@ const renderRouter = (routes) => {
             path={route.route}
             render={(props) => {
               let isAuth = true;
-              if (route.meta.roles) {
-                isAuth = auth(route.meta.roles);
+              if (route.authority) {
+                isAuth = auth(route.authority);
               }
-              const Temp = lazy(() => import(`../../${route.meta.path}`)); // 有变量的情况不能使用别名
+              const Temp = lazy(() => import(`../../${route.path}`)); // 有变量的情况不能使用别名
               return isAuth ? (
                 <Suspense fallback={<Loading />}>
                   <div className="animated faster fadeInRight">
@@ -73,9 +75,9 @@ const renderRouter = (routes) => {
         children.push(curRoute);
       }
 
-      console.log(route.children.length);
-      if (route.children.length) {
-        renderRoutes(route.children);
+      console.log(route.routes.length);
+      if (route.routes.length) {
+        renderRoutes(route.routes);
       }
     });
   }

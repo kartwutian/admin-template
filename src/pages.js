@@ -22,20 +22,20 @@ module.exports = {
       route: '/form/basic',
       template: 'list',
       name: 'basic',
-      // roles: ['user'], // 用于权限控制，菜单和路由
+      authority: ['user'], // 用于权限控制，菜单和路由
     },
     {
       path: 'pages/Form/Step',
       route: '/form/step',
       template: 'list',
       name: 'step',
-      // roles: 'admin', // 用于权限控制，菜单和路由
+      authority: 'admin', // 用于权限控制，菜单和路由
     },
     {
       path: 'pages/Maps/index',
       route: '/maps',
       name: '地图',
-      // isHideInMenus: true, // 代表在菜单栏隐藏菜单
+      isHideInMenus: true, // 代表在菜单栏隐藏菜单
     },
     // {
     //   path: 'pages/Test/Demo',

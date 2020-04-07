@@ -8,6 +8,7 @@ import { appHistory } from 'layout/Root/index';
 import styles from './index.less';
 
 @withRouter
+@inject('globalStore')
 @inject('modelLogin')
 @observer
 @cssModules(styles)
@@ -16,6 +17,7 @@ class LoginPage extends Component {
     super(props);
 
     this.store = props.modelLogin;
+    this.globalStore = props.globalStore;
     this.formRef = createRef();
   }
 
@@ -32,8 +34,9 @@ class LoginPage extends Component {
     destory && destory();
   }
 
-  handleSubmit = async values => {
+  handleSubmit = async (values) => {
     const { login } = this.props.modelLogin;
+    const { updateRoutes } = this.globalStore;
     const res = await login({
       phone: values.username,
       captcha: values.password,
@@ -43,11 +46,12 @@ class LoginPage extends Component {
     if (remember) {
       loginUtil.saveUserInfo(res.data);
     }
+    updateRoutes();
     message.success('登录成功');
     appHistory.push('/');
   };
 
-  onFinishFailed = errorInfo => {
+  onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
 
