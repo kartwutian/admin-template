@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import { inject, observer } from 'mobx-react';
 import { Menu } from 'antd';
 // import { MenuFoldOutlined } from '@ant-design/icons';
-import router from '@/_router';
 import auth from 'utils/auth';
 
 const { SubMenu } = Menu;
 
 // import style from './style.less';
 
-const renderSubMenu = route => {
+const renderSubMenu = (route) => {
   if (route.meta.isHideInMenus) return null; // 如果设置了隐藏，则菜单不显示
   if (route.meta.roles && !auth(route.meta.roles)) return null; // 如果有设置权限，则只展示有权限的菜单
 
@@ -27,7 +27,7 @@ const renderSubMenu = route => {
   );
 };
 
-const renderMenuItem = route => {
+const renderMenuItem = (route) => {
   if (route.meta.isHideInMenus) return null; // 如果设置了隐藏，则菜单不显示
   if (route.meta.roles && !auth(route.meta.roles)) return null; // 如果有设置权限，则只展示有权限的菜单
   return (
@@ -37,8 +37,8 @@ const renderMenuItem = route => {
   );
 };
 
-const renderMenus = routes => {
-  return routes.map(route => {
+const renderMenus = (routes) => {
+  return routes.map((route) => {
     if (route.children.length) {
       return renderSubMenu(route);
     }
@@ -47,7 +47,14 @@ const renderMenus = routes => {
 };
 
 @withRouter
+@inject('globalStore')
+@observer
 class SiderMenu extends Component {
+  constructor(props) {
+    super(props);
+    this.globalStore = props.globalStore;
+  }
+
   handleMenuClick = ({ key }) => {
     const { history } = this.props;
 
@@ -58,6 +65,7 @@ class SiderMenu extends Component {
 
   render() {
     const { collapsed, location } = this.props;
+    const { router } = this.globalStore;
     return (
       <Menu
         defaultSelectedKeys={['/project']}

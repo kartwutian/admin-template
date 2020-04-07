@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import cssModules from 'react-css-modules';
+import { inject, observer } from 'mobx-react';
 import { Layout, Menu, Dropdown, /* Avatar, */ Tooltip } from 'antd';
 import {
   MenuFoldOutlined,
@@ -20,10 +21,16 @@ const { Header, Sider, Content } = Layout;
 @cssModules(styles, {
   allowMultiple: true,
 })
+@inject('globalStore')
+@observer
 class App extends Component {
-  state = {
-    collapsed: false,
-  };
+  constructor(props) {
+    super(props);
+    this.globalStore = props.globalStore;
+    this.state = {
+      collapsed: false,
+    };
+  }
 
   toggle = () => {
     this.setState({

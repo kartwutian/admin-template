@@ -7,12 +7,11 @@ import { Router, Route, Switch } from 'react-router-dom';
 import { createHashHistory } from 'history';
 import { Provider } from 'mobx-react';
 import App from 'layout/App/index';
-import store from '@/store/index';
+import store, { globalStore } from '@/store/index';
 import { ConfigProvider } from 'antd';
 import Exception from 'components/Exception/index.js';
 import loginUtil from 'utils/login';
 import auth from 'utils/auth';
-import router from '@/_router';
 import zh_CN from 'antd/es/locale/zh_CN';
 import 'moment/locale/zh-cn';
 
@@ -22,8 +21,12 @@ import 'stylesheet/animate.css';
 
 export const appHistory = createHashHistory();
 
-const routerOut = router.filter(item => item.meta.isInLayout === false);
-const routerInner = router.filter(item => item.meta.isInLayout !== false);
+const routerOut = globalStore.router.filter(
+  (item) => item.meta.isInLayout === false,
+);
+const routerInner = globalStore.router.filter(
+  (item) => item.meta.isInLayout !== false,
+);
 
 // /**
 //  * 模拟延时加载组件
@@ -36,11 +39,11 @@ const routerInner = router.filter(item => item.meta.isInLayout !== false);
 //   });
 // }
 
-const renderRouter = routes => {
+const renderRouter = (routes) => {
   const children = [];
 
   function renderRoutes(arr) {
-    arr.forEach(route => {
+    arr.forEach((route) => {
       if (!route.meta.path) {
         children.push(null);
       } else {
@@ -49,7 +52,7 @@ const renderRouter = routes => {
             key={route.route}
             exact
             path={route.route}
-            render={props => {
+            render={(props) => {
               let isAuth = true;
               if (route.meta.roles) {
                 isAuth = auth(route.meta.roles);
@@ -109,7 +112,7 @@ class Root extends Component {
                     <Switch>
                       {renderRouter(routerInner)}
                       <Route
-                        render={props => {
+                        render={(props) => {
                           return <Exception type="404" />;
                         }}
                       />
@@ -117,7 +120,7 @@ class Root extends Component {
                   </App>
                 ) : (
                   <Route
-                    render={props => {
+                    render={(props) => {
                       const Temp = lazy(() => import('pages/Login'));
                       return (
                         <Suspense fallback={<Loading />}>

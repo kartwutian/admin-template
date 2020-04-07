@@ -29,7 +29,7 @@
     "eqeqeq": "error",
     "react/prop-types": "off",
     "no-script-url": 0,
-    "arrow-parens": ["error", "as-needed"],
+    "arrow-parens": 0,
     "indent": 0,
     "comma-dangle": 0
   }
