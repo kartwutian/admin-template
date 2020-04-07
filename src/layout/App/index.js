@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import cssModules from 'react-css-modules';
 import { inject, observer } from 'mobx-react';
-import { Layout, Menu, Dropdown, /* Avatar, */ Tooltip } from 'antd';
+import {
+  Layout,
+  Menu,
+  Dropdown,
+  /* Avatar, */ Tooltip,
+  PageHeader,
+} from 'antd';
 import {
   MenuFoldOutlined,
   LogoutOutlined,
@@ -32,6 +38,8 @@ class App extends Component {
     };
   }
 
+  componentDidMount() {}
+
   toggle = () => {
     this.setState({
       collapsed: !this.state.collapsed,
@@ -45,11 +53,54 @@ class App extends Component {
     }
   };
 
+  getBreadData = () => {
+    const { pathname } = this.props.location;
+    const { router } = this.globalStore;
+    const curPathArr = pathname.split('/').slice(1);
+    console.log(curPathArr);
+    let curRouter = router;
+    const breads = [];
+    curPathArr.reduce((prefix, next) => {
+      prefix = `${prefix}/${next}`;
+      console.log(prefix);
+      const curItem = curRouter.find((item) => item.route === prefix);
+      console.log(curItem);
+      if (curItem) {
+        breads.push(curItem);
+        curRouter = curItem.routes;
+      }
+      return prefix;
+    }, '');
+    return breads;
+  };
+
+  renderSubHeader = () => {
+    const sourceData = this.getBreadData();
+    const routes =
+      sourceData.length > 1
+        ? sourceData.map((item) => ({
+            path: item.route,
+            breadcrumbName: item.name,
+          }))
+        : [];
+    const curRoute = sourceData[sourceData.length - 1];
+
+    return sourceData.length && curRoute.hasBread ? (
+      <PageHeader
+        ghost={false}
+        title={curRoute && curRoute.name}
+        breadcrumb={{ routes }}
+        subTitle={curRoute.subTitle || ''}
+      />
+    ) : null;
+  };
+
   render() {
     const { collapsed } = this.state;
 
     const userInfo = loginUtil.getUserInfo() || {};
 
+    this.renderSubHeader();
     const menu = (
       <Menu
         className="user-menu"
@@ -137,6 +188,7 @@ class App extends Component {
             </Tabs> */}
           </div>
           <div>
+            {this.renderSubHeader()}
             <Content>{this.props.children}</Content>
           </div>
         </Layout>

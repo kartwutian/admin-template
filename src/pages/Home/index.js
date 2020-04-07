@@ -16,25 +16,25 @@ class HomePage extends Component {
         title: 'Name',
         dataIndex: 'name',
         key: 'name',
-        render: text => <a>{text}</a>
+        render: (text) => <a>{text}</a>,
       },
       {
         title: 'Age',
         dataIndex: 'age',
-        key: 'age'
+        key: 'age',
       },
       {
         title: 'Address',
         dataIndex: 'address',
-        key: 'address'
+        key: 'address',
       },
       {
         title: 'Tags',
         key: 'tags',
         dataIndex: 'tags',
-        render: tags => (
+        render: (tags) => (
           <span>
-            {tags.map(tag => {
+            {tags.map((tag) => {
               let color = tag.length > 5 ? 'geekblue' : 'green';
               if (tag === 'loser') {
                 color = 'volcano';
@@ -46,7 +46,7 @@ class HomePage extends Component {
               );
             })}
           </span>
-        )
+        ),
       },
       {
         title: 'Action',
@@ -56,8 +56,8 @@ class HomePage extends Component {
             <a style={{ marginRight: 16 }}>Invite {record.name}</a>
             <a>Delete</a>
           </span>
-        )
-      }
+        ),
+      },
     ];
   }
 
@@ -69,38 +69,38 @@ class HomePage extends Component {
   render() {
     const {
       store: { data, commit, demo, loading },
-      columns
+      columns,
     } = this;
 
-    const routes = [
-      {
-        path: 'index',
-        breadcrumbName: 'First-level Menu'
-      },
-      {
-        path: 'first',
-        breadcrumbName: 'Second-level Menu'
-      },
-      {
-        path: 'second',
-        breadcrumbName: 'Third-level Menu'
-      }
-    ];
+    // const routes = [
+    //   {
+    //     path: 'index',
+    //     breadcrumbName: 'First-level Menu'
+    //   },
+    //   {
+    //     path: 'first',
+    //     breadcrumbName: 'Second-level Menu'
+    //   },
+    //   {
+    //     path: 'second',
+    //     breadcrumbName: 'Third-level Menu'
+    //   }
+    // ];
 
     return (
       <div>
-        <PageHeader
+        {/* <PageHeader
           ghost={false}
           title="Title"
           breadcrumb={{ routes }}
           subTitle="This is a subtitle"
-        />
+        /> */}
 
         <div className="content-card__wrapper">
           <Card>
             <Row
               style={{
-                marginBottom: 16
+                marginBottom: 16,
               }}
             >
               <Button
@@ -114,7 +114,7 @@ class HomePage extends Component {
                 type="primary"
                 onClick={() => {
                   commit({
-                    demo: demo + 1234566
+                    demo: demo + 1234566,
                   });
                 }}
                 loading={loading.update}

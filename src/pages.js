@@ -6,6 +6,8 @@ module.exports = {
       //   template: 'list', // 配置生成相关页面使用的模板文件，没有则用默认模板文件
       route: '/project', // 使用的前端路由
       name: '首页',
+      hasBread: true, // 是否展示自带面包屑
+      subTitle: '子标题', // 自带header的子标题
     },
     {
       path: 'pages/Login/index',

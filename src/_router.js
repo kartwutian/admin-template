@@ -5,7 +5,9 @@ const router = [
     "route": "/project",
     "routes": [],
     "path": "pages/Home/index",
-    "name": "首页"
+    "name": "首页",
+    "hasBread": true,
+    "subTitle": "子标题"
   },
   {
     "route": "/login",
